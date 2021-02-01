@@ -1,0 +1,106 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.0.6" author="hikmat.mahmudov">
+        <createTable tableName="orders">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="created" type="TIMESTAMP" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="updated" type="TIMESTAMP" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="status" type="VARCHAR(25)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="card_type" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="card_holder_name" type="VARCHAR(75)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="card_period" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="urgent" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="fk_user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="codeword" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="submitted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.7" author="hikmat.mahmudov">
+        <createTable tableName="card_credentials">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="created" type="TIMESTAMP" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="updated" type="TIMESTAMP" defaultValue="NOW()">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="status" type="VARCHAR(25)" defaultValue="ACTIVE">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="card_number" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="fk_order_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1.0.8" author="hikmat.mahmudov">
+        <addForeignKeyConstraint baseColumnNames="fk_user_id"
+                                 baseTableName="orders"
+                                 constraintName="fk_orders_fk_user_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+
+    <changeSet id="1.0.9" author="hikmat.mahmudov">
+        <addForeignKeyConstraint baseColumnNames="fk_order_id"
+                                 baseTableName="card_credentials"
+                                 constraintName="fk_card_credentials_fk_order_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="orders"/>
+    </changeSet>
+
+</databaseChangeLog>
